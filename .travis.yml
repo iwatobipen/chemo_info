@@ -4,7 +4,7 @@ os:
   - osx
 python:
    - "2.7"
-before_install:
+before_script:
    - brew update
    - brew tap rdkit/rdkit
    - brew install rdkit 
