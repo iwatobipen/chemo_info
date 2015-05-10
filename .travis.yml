@@ -8,4 +8,5 @@ before_script:
    - brew tap rdkit/rdkit
    - brew install rdkit 
 # command to run tests
+language: python
 script: nosetests
