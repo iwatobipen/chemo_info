@@ -1,10 +1,11 @@
-language: objective-c
 language: python
+os:
+   - osx
 python:
-    - "2.7"
+   - "2.7"
 before_install:
-   - brew tap rdkit/rdkit
    - brew update
+   - brew tap rdkit/rdkit
    - brew install rdkit 
 # command to run tests
 script: nosetests
