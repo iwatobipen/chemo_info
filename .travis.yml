@@ -1,11 +1,10 @@
 language: objective-c
 os:
   - osx
-python:
-   - "2.7"
 before_script:
    - brew update
    - brew tap rdkit/rdkit
    - brew install rdkit 
 # command to run tests
-script: ls
+script:
+        - python --version 
