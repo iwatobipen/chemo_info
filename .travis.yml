@@ -1,5 +1,4 @@
 language: objective-c
-language: python
 os:
   - osx
 python:
