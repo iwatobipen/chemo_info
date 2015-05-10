@@ -1,6 +1,5 @@
+language: objective-c
 language: python
-os:
-   - osx
 python:
    - "2.7"
 before_install:
