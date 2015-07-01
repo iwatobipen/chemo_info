@@ -41,21 +41,21 @@ def build_neighbor_dictionary(mmps,meas,no_chiral=False):
                if not Chem.GetDistanceMatrix(a)[a_idx2,a_idx3] == Chem.GetDistanceMatrix(b)[b_idx2,b_idx3]: continue
         # Add to neighbor dictionary
         if moll in neighs.keys():
-            if not molr in [i[1] for i in neighs[moll]]:
+            if not molr in [i[0] for i in neighs[moll]]:
                 neighs[moll].append((molr,line[4]))
             else:
-                idx = [i[1] for i in neighs[moll]].index(molr)
-                smirks_len = len(neighs[moll][idx][2])
+                idx = [i[0] for i in neighs[moll]].index(molr)
+                smirks_len = len(neighs[moll][idx][1])
                 if len(line[4]) < smirks_len:
                     neighs[moll][idx] = (molr,line[4])
         else:
             neighs[moll] = [(molr,line[4])]
         if molr in neighs.keys():
-            if not moll in [i[1] for i in neighs[molr]]:
+            if not moll in [i[0] for i in neighs[molr]]:
                 neighs[molr].append((moll,rhs+">>"+lhs))
             else:
-                idx = [i[1] for i in neighs[molr]].index(moll)
-                smirks_len = len(neighs[molr][idx][2])
+                idx = [i[0] for i in neighs[molr]].index(moll)
+                smirks_len = len(neighs[molr][idx][1])
                 if len(line[4]) < smirks_len:
                     neighs[molr][idx] = (moll,rhs+">>"+lhs)
         else:
