@@ -8,7 +8,23 @@ from rdkit import DataStructs
 from rdkit.Chem import SaltRemover
 from rdkit.Chem.Fingerprints import FingerprintMols
 
+def getmolwt( mol ):
+    molwt = Descriptors.MolWt( mol )
+    return molwt
 
+def get_mol_dictionary( inf ):
+    moldict = {}
+    inf = [ line.rstrip() for line in open( inf, "r" ) ]
+    for line in inf:
+        molid = line.split(",")[ 1 ]
+        smi = line.split(",")[ 0 ]
+        molwt = getmolwt( Chem.MolFromSmiles( smi ) )
+        if molid in moldict.keys():
+            continue
+        else:
+            moldict[ molid ] = ( smi, molwt )
+    return moldict
+        
 
 def build_neighbor_dictionary(mmps,meas,no_chiral=False):
     """
@@ -99,19 +115,21 @@ def get_circles(neighs):
     return circles
 
 
-def write_circles_to_output(circles,meas,pdbs,neighs,outfile):
+def write_circles_to_output(circles, moldict ,neighs, outfile="non_add_circles.txt"):
     """
     Get Diffs and write to output
     """
 
     f = open(outfile,'w')
-    #f.write("Circle\tSMIRKS1\tSMIRKS2\tAct1\tAct2\tAct3\tAct4\tDiff1\tDiff2\tDiff3\tDiff4\tAdd_diff\tSimilar_PDBs1\tSimilar_PDBs2\tSimilar_PDBs3\tSimilar_PDBs4\n")
+    """
+    f.write("Circle\tSMIRKS1\tSMIRKS2\tSimilar_PDBs1\tSimilar_PDBs2\tSimilar_PDBs3\tSimilar_PDBs4\n")
+    """
     f.write("Circle\tSMIRKS1\tSMIRKS2\n")
 
 
     for i,cpds in enumerate(circles):
 
-        mwts = [meas[cpd][0]['mwt'] for cpd in cpds]
+        mwts = [moldict[cpd][1] for cpd in cpds]
         min_idx = mwts.index(min(mwts))
         circles[i] = (circles[i]+circles[i])[min_idx:min_idx+4]
 
