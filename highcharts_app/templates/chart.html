@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title> test </title>
+    <script type='text/javascript' src ="{{ url_for('static', filename='jquery-2.2.4.min.js') }}"></script>
+    <script type='text/javascript' src = "{{ url_for( 'static', filename='highcharts/js/highcharts.js' ) }}"  ></script>
+    <script type='text/javascript' src = "{{ url_for( 'static', filename='highcharts/js/modules/exporting.js' ) }}"  ></script>
+
+    <script>
+    $(function(){
+    $('#container').highcharts({
+      chart :{
+        type : 'scatter',
+        zoomType : 'xy'
+      },
+      title : {
+        text : 'chemical space mapping'
+      },
+      xAxis : {
+        title : { text : 'PC1'},
+        gridLineWidth : 2,
+      },
+      yAxis : {
+        title : { text : 'PCA2'}
+      },
+      tooltip :{
+        useHTML : true,
+        formatter : function(){
+          return this.point.svg
+        }
+      },
+      series : [{
+        turboThreshold:0,
+        name : 'drugs',
+        color : 'rgba( 223, 83, 83, .3 )',
+        data : {{ data1|safe }}
+      },{
+        name : 'testmol',
+        color : 'rgba( 119, 152, 191, .8 )',
+        data : {{ data2|safe }}
+      }]
+    });
+    });
+    </script>
+
+  </head>
+  <body>
+    <p> scatter plot </p></br>
+    <div id = "container" style = "width:500px; height:500px;"></div>
+
+  </body>
+</html>
