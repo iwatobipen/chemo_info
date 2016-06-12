@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>RDKIT js with electron</title>
+    <!-- jQuery is not loaded first run. Why???  -->
+    <script> window.$ = window.jQuery =  require( 'jquery' );</script>
+    <script> var Highcharts = require( 'highcharts' );</script>
+    <script> var RDKit = require( 'rdkit' );</script>
+    <script> var drawmol = function() {
+                        var smi = document.getElementById('smi').value;
+                        console.log( smi );
+			var mol = RDKit.Molecule.fromSmiles( smi );
+			mol.Kekulize();
+			var svg = mol.Drawing2D();
+			var svg = svg.split('svg:').join('');
+                        document.getElementById("drawer").innerHTML = svg;         
+               };
+    </script>
+
+  </head>
+  <body>
+    <h1>Smiles parser</h1>
+    We are using node <script>document.write(process.versions.node)</script>,
+    Chrome <script>document.write(process.versions.chrome)</script>,
+    and Electron <script>document.write(process.versions.electron)</script>.<br>
+    <p>This is simple smiles converter using RDKit js.</p>
+    <p>Input smiles to text box and push the button.</p>
+    <input id='smi' type='text' ><br>
+    <button type='button' onclick='drawmol()' >draw</button><br>
+
+    <div id='drawer'></div>
+  </body>
+</html>
