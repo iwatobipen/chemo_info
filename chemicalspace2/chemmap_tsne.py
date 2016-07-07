@@ -6,7 +6,7 @@ from rdkit.Chem import DataStructs
 from sklearn.manifold import TSNE
 import pickle, sys
 
-drugs = [ mol for mol in Chem.SDMolSupplier( "st178.sdf" ) if mol != None ]
+drugs = [ mol for mol in Chem.SDMolSupplier( ".sdf" ) if mol != None ]
 
 def calc_fp_arr( mols ):
     fplist = []

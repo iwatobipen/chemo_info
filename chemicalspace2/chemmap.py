@@ -6,7 +6,7 @@ from rdkit.Chem import DataStructs
 from sklearn.decomposition import PCA
 import pickle, sys
 
-drugs = [ mol for mol in Chem.SDMolSupplier( "st178.sdf" ) if mol != None ]
+drugs = [ mol for mol in Chem.SDMolSupplier( "drugs.sdf" ) if mol != None ]
 
 def calc_fp_arr( mols ):
     fplist = []
@@ -32,4 +32,4 @@ for i in range( x.shape[0] ):
     line = ""
     line = Chem.MolToSmiles( drugs[i] ) + "," + str( x[i][0] )  + "," + str( x[i][1] ) + "\n"
     f.write( line )
-f.close() 
+f.close()
