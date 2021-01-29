@@ -5,7 +5,7 @@ from rdkit import Chem
 from rdkit.Chem import AllChem, DataStructs
 from rdkit.Chem.Draw import SimilarityMaps
 from sklearn.svm import SVC
-from sklearn.cross_validation import train_test_split
+from sklearn.model_selection import train_test_split
 import seaborn as sns
 import os, sys
 dataset = open( "data_cdk.txt", "r" )
@@ -41,16 +41,15 @@ for fp in testfps:
 #print(len(mols),len(trainx), len(trainy))
 cls = SVC( probability=True, C=100 )
 cls.fit( trainx, trainy )
-
 def getProba( fp, probabilityFunc ):
-    return probabilityFunc( fp )[0][1]
+    return probabilityFunc([fp])[0][1]
 
 def mapperfunc( mol ):
     fig, weight = SimilarityMaps.GetSimilarityMapForModel( mol, SimilarityMaps.GetMorganFingerprint, lambda x: getProba( x, cls.predict_proba), colorMap=cm.bwr  )
     fp = AllChem.GetMorganFingerprintAsBitVect( mol, 2 )
     arr = np.zeros((1,))
     DataStructs.ConvertToNumpyArray( fp, arr )
-    res = cls.predict( arr )
+    res = cls.predict( [arr] )
     smi = Chem.MolToSmiles( mol )
     print(res[0])
     if res[0] == 1:
